@@ -44,7 +44,7 @@ cd examples/NLG
 cd examples/NLG
 ```
 
-2. Train GPT-2 Medium with scaled AdamW optimizer (see our paper for hyperparameters)
+2. Train GPT-2 medium with scaled AdamW optimizer (see our paper for hyperparameters)
 ```
 python -m torch.distributed.launch --nproc_per_node=1 src/gpt2_ft.py \
     --train_data ./data/e2e/train.jsonl \
