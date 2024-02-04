@@ -15,10 +15,11 @@ We also evaluate for varying LoRA ranks, different model sizes, and different da
 
 ## Repository Overview
 
-* [src/](examples/NLG/src) contains the source code used for data processing, training, and decoding.
-* [eval/](examples/NLG/eval) contains the code for task-specific evaluation scripts.
-* [data/](examples/NLG/data) contains the raw data we used in our experiments.
-* [vocab/](examples/NLG/vocab) contains the GPT-2 vocabulary files.
+* [examples/NLG/src/](examples/NLG/src) contains the source code used for data processing, training, and decoding.
+* [examples/NLG/eval/](examples/NLG/eval) contains the code for task-specific evaluation scripts.
+* [examples/NLG/data/](examples/NLG/data) contains the raw data we used in our experiments.
+* [examples/NLG/vocab/](examples/NLG/vocab) contains the GPT-2 vocabulary files.
+* [loralib/](loralib) contains the lora library implementation.
 
 ## Requirements
 See the [LoRA](https://github.com/microsoft/LoRA/tree/main) repository for requirements.
