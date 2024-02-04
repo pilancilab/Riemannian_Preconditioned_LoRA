@@ -6,7 +6,7 @@
 *Fangzhao Zhang, Mert Pilanci* <br>
 Paper: XXX <br>
 
-This repository builds on original LoRA project [LoRA (Hu et al., 2021)](https://arxiv.org/abs/2106.09685) 
+This repository builds on original LoRA project [LoRA (Hu et al., 2021)](https://arxiv.org/abs/2106.09685). 
 <p>
 <img src="figures/score_gpt.png" width="800" >
 </p>
