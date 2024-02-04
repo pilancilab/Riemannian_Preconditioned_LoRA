@@ -44,7 +44,7 @@ mkdir experiments/8101_EDLoRA_potter_Cmix_B4_Repeat500/models
 accelerate launch train_edlora.py -opt options/train/EDLoRA/real/8101_EDLoRA_potter_Cmix_B4_Repeat500.yml --optimizer scaled_adamw
 ```
 
-Here <code>sgd, scaled_gd, adamw, scaled_adamw</code> are all valid choices for <code>--optimizer</code>. Scaled AdamW is dafualt. Trained models will be saved to : <code>experiments/8101_EDLoRA_potter_Cmix_B4_Repeat500/models</code>.
+Here <code>sgd, scaled_gd, adamw, scaled_adamw</code> are all valid choices for <code>--optimizer</code>. Scaled AdamW is set as dafualt. Trained models will be saved to : <code>experiments/8101_EDLoRA_potter_Cmix_B4_Repeat500/models</code>.
 
 4. Create image directory
 ```bash
