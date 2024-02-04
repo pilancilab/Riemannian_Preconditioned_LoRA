@@ -6,7 +6,7 @@
 *Fangzhao Zhang, Mert Pilanci* <br>
 Paper: XXX <br>
 
-This repository builds on original LoRA project [Mix-of-Show (Gu et al., 2023)](https://arxiv.org/abs/2305.18292)
+This repository builds on original Mix-of-Show project [Mix-of-Show (Gu et al., 2023)](https://arxiv.org/abs/2305.18292)
 
 <p>
 <img src="figures/harry.png" width="800" >
