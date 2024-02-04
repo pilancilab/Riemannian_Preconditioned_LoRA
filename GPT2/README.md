@@ -1,4 +1,4 @@
-# GPT-2 experiments for Riemannian LoRA
+# GPT-2 Experiments for Riemannian LoRA
 
 
 
