@@ -11,7 +11,7 @@ This repository builds on original LoRA project [LoRA (Hu et al., 2021)](https:/
 <img src="figures/score_gpt.png" width="800" >
 </p>
 
-We also evaluate for varying LoRA ranks, different model sizes, and different datasets inclong DART and WebNLG. Here we demonstrate our experiment for E2E datasets and training loss plot Figure 1. See the [LoRA](https://github.com/microsoft/LoRA/tree/main) repository for expeirments for other datasets.
+We also evaluate for varying LoRA ranks, different model sizes, and different datasets inclong DART and WebNLG. Here we demonstrate our experiment for E2E datasets and training loss plot (Figure 1 in the original paper). See the [LoRA](https://github.com/microsoft/LoRA/tree/main) repository for expeirments for other datasets.
 
 ## Repository Overview
 
