@@ -1,4 +1,4 @@
-# Object Genration experiments for Riemannian LoRA
+# Object Genration Experiments for Riemannian LoRA
 
 **Riemannian Preconditioned LoRA for Fine-Tuning Foundation Models** <br>
 *Fangzhao Zhang, Mert Pilanci* <br>
