@@ -1,4 +1,4 @@
-# Mistral 7B experiments for Riemannian LoRA
+# Mistral 7B Experiments for Riemannian LoRA
 
 
 
