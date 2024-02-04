@@ -55,8 +55,16 @@ Please contact us or post an issue if you have any questions.
 This work has been heavily influenced by recent develop ment in low-rank matrix optimization research and parameter-efficient fiine-tuning (PEFT) research. We just combine them together. We cite several important references here with a more complete reference list presented in our paper XXX. More over, our experiment code is mainly built on the following repositories: [LoRA (Hu et al., 2021)](https://arxiv.org/abs/2106.09685), [Mix-of-Show (Gu et al., 2023)](https://arxiv.org/abs/2305.18292), [custom diffsuon](https://github.com/cloneofsimo/lora).
 
 ```BibTeX
-@inproceedings{
-hu2022lora,
+@article{tong2021accelerating,
+    title={Accelerating Ill-Conditioned Low-Rank Matrix Estimation via Scaled Gradient Descent},
+    author={Tian Tong and Cong Ma and Yuejie Chi},
+    journal={arXiv preprint arXiv:2005.08898},
+    year={2021}
+}
+```
+
+```BibTeX
+@inproceedings{hu2022lora,
 title={Lo{RA}: Low-Rank Adaptation of Large Language Models},
 author={Edward J Hu and Yelong Shen and Phillip Wallis and Zeyuan Allen-Zhu and Yuanzhi Li and Shean Wang and Lu Wang and Weizhu Chen},
 booktitle={International Conference on Learning Representations},
