@@ -23,7 +23,7 @@ All figures in our original paper can be generated from the current repository w
 
 ## Repository Overview
 In this project, we experiments with GPT-2 fine-tuning, Mistral 7B fine-tuning, Mix-of-Show fine-tuning, custom diffusion fine-tuning.
-1. GPT-2 Fine-Tuning (see [GPT-2/](GPT-2) for experiment code.)
+1. GPT-2 Fine-Tuning (see [GPT-2/](GPT2) for experiment code.)
 <p align='center'>
 <img src="main_figures/score_gpt.png" width="800" >
 </p>
