@@ -1,4 +1,4 @@
-# Mix-of-Show experiments for Riemannian LoRA
+# Mix-of-Show Experiments for Riemannian LoRA
 
 
 
