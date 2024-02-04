@@ -41,7 +41,7 @@ In this project, we experiments with GPT-2 fine-tuning, Mistral 7B fine-tuning, 
 </p>
 
 
-4. Custom Diffusion Fine-tuning (see [Object_Genration/](Object_Genration) for experiment code.)
+4. Custom Diffusion Fine-tuning (see [Object_Generation/](Object_Generation) for experiment code.)
 <p align='center'>
 <img src="main_figures/vase.png" width="800" >
 </p>
