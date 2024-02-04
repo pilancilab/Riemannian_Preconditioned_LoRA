@@ -19,7 +19,7 @@ where $A^TA$ and $B^TB$ are of dimension $r$ by $r$. This preconditioner has ori
 <img src="main_figures/loss.png" width="300" > <img src="main_figures/runtime.png" width="300" >
 </p>
 
-All figures in the original paper can be generated from the current repository with hyperparameters correctly chosen according to our paper XXX.
+All figures in our original paper can be generated from the current repository with hyperparameters correctly chosen according to the paper XXX.
 
 ## Repository Overview
 In this project, we experiments with GPT-2 fine-tuning, Mistral 7B fine-tuning, Mix-of-Show fine-tuning, custom diffusion fine-tuning.
