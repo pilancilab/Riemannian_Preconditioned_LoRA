@@ -4,7 +4,7 @@
 *Fangzhao Zhang, Mert Pilanci* <br>
 Paper: XXX <br>
 
-This repository builds on the [custom diffsuon](https://github.com/cloneofsimo/lora)  project 
+This repository builds on the [custom diffsuon](https://github.com/cloneofsimo/lora)  project. 
 
 <p>
 <img src="figures/vase.png" width="800" >
