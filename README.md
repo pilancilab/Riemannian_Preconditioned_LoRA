@@ -5,7 +5,7 @@ This repo contains the source code for experiments for our paper
 
 **Riemannian Preconditioned LoRA for Fine-Tuning Foundation Models** <br>
 *Fangzhao Zhang, Mert Pilanci* <br>
-Paper: XXX <br>
+Paper: [Riemannian Preconditioned LoRA for Fine-Tuning Foundation Models](https://arxiv.org/abs/2402.02347) <br>
 
 In this work we study the enhancement of Low Rank Adaptation (LoRA) fine-tuning procedure by introducing a Riemannian preconditioner in its optimization step. Specifically, we introduce an $r\times r$ preconditioner in each gradient step where $r$ is the LoRA rank. This preconditioner requires a small change to existing optimizer code and creates virtually minuscule storage and runtime overhead. Our experimental results with both large language models and text-to-image diffusion models show that with our preconditioner, the convergence and reliability of SGD and AdamW can be significantly enhanced. Moreover, the training process becomes much more robust to hyperparameter choices such as  learning rate. Theoretically, we show that fine-tuning a two-layer ReLU network in the convex paramaterization with our preconditioner has convergence rate independent of condition number of the data matrix. This new Riemannian preconditioner, previously explored in classic low-rank matrix recovery, is introduced to deep learning tasks for the first time in our work. 
 
@@ -19,7 +19,7 @@ where $A^TA$ and $B^TB$ are of dimension $r$ by $r$. This preconditioner has ori
 <img src="main_figures/loss.png" width="300" > <img src="main_figures/runtime.png" width="300" >
 </p>
 
-All figures in our original paper can be generated from the current repository with hyperparameters correctly chosen according to the paper XXX.
+All figures in our original paper can be generated from the current repository with hyperparameters correctly chosen according to the [paper](https://arxiv.org/abs/2402.02347).
 
 ## Repository Overview
 In this project, we experiments with GPT-2 fine-tuning, Mistral 7B fine-tuning, Mix-of-Show fine-tuning, custom diffusion fine-tuning.
