@@ -52,7 +52,7 @@ Please contact us or post an issue if you have any questions.
 * Fangzhao Zhang (zfzhao@stanford.edu)
 
 ## References and Acknowledgements
-This work has been heavily influenced by recent development in low-rank matrix optimization research and parameter-efficient fine-tuning (PEFT) research. We just combine them together. We cite several important references here with a more complete reference list presented in our paper XXX. Moreover, our experiment code is mainly built on the following repositories: [LoRA (Hu et al., 2021)](https://arxiv.org/abs/2106.09685), [Mix-of-Show (Gu et al., 2023)](https://arxiv.org/abs/2305.18292), [custom diffsuon](https://github.com/cloneofsimo/lora).
+This work has been heavily influenced by recent development in low-rank matrix optimization research and parameter-efficient fine-tuning (PEFT) research. We just combine them together. We cite several important references here with a more complete reference list presented in our [paper](https://arxiv.org/abs/2402.02347). Moreover, our experiment code is mainly built on the following repositories: [LoRA (Hu et al., 2021)](https://arxiv.org/abs/2106.09685), [Mix-of-Show (Gu et al., 2023)](https://arxiv.org/abs/2305.18292), [custom diffsuon](https://github.com/cloneofsimo/lora).
 
 ```BibTeX
 @article{tong2021accelerating,
