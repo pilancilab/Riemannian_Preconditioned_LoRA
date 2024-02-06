@@ -4,7 +4,7 @@
 
 **Riemannian Preconditioned LoRA for Fine-Tuning Foundation Models** <br>
 *Fangzhao Zhang, Mert Pilanci* <br>
-Paper: XXX <br>
+Paper: [Riemannian Preconditioned LoRA for Fine-Tuning Foundation Models](https://arxiv.org/abs/2402.02347) <br>
 
 <p>
 <img src="figures/score_mistral.png" width="800" >
