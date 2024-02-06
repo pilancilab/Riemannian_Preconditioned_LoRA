@@ -86,7 +86,12 @@ url={https://openreview.net/forum?id=nZeVKeeFYf9}
 
 ## Citation
 ```BibTeX
-@inproceedings{
-XXX
+@misc{zhang2024riemannian,
+      title={Riemannian Preconditioned LoRA for Fine-Tuning Foundation Models}, 
+      author={Fangzhao Zhang and Mert Pilanci},
+      year={2024},
+      eprint={2402.02347},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
 }
 ```
