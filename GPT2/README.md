@@ -34,8 +34,7 @@ cd examples/NLG
  bash create_datasets.sh
  cd ./eval
  bash download_evalscript.sh
- cd ..
- cd ../..
+ cd ../../..
  python setup.py develop
  ```
 
