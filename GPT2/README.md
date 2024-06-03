@@ -35,6 +35,8 @@ cd examples/NLG
  cd ./eval
  bash download_evalscript.sh
  cd ..
+ cd ../..
+ python setup.py develop
  ```
 
 
