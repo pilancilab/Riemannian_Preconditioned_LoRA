@@ -19,7 +19,7 @@ import warnings
 from collections.abc import Mapping
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Tuple, Union
-from .custom_optimizer import AdamWv, AdamWr, SGDv, SGDr
+from .custom_optimizer import AdamW, AdamWr, SGD, SGDr
 
 # Integrations must be imported before ML frameworks:
 # isort: off
@@ -303,6 +303,7 @@ class Trainer:
     def __init__(
         self,
         custom_optimizer,
+        optimizer_reg = 0.0,
         model: Union[PreTrainedModel, nn.Module] = None,
         args: TrainingArguments = None,
         data_collator: Optional[DataCollator] = None,
@@ -340,6 +341,7 @@ class Trainer:
         args._setup_devices
 
         self.custom_optimizer = custom_optimizer
+        self.optimizer_reg = optimizer_reg
 
         if model is None:
             if model_init is not None:
@@ -940,12 +942,14 @@ class Trainer:
             
             optimizer_cls, optimizer_kwargs = Trainer.get_optimizer_cls_and_kwargs(self.args)
             if self.custom_optimizer=='sgd':
-                self.optimizer = SGDv(optimizer_grouped_parameters, **optimizer_kwargs)
+                self.optimizer = SGD(optimizer_grouped_parameters, **optimizer_kwargs)
             elif self.custom_optimizer=='scaled_gd':
+                optimizer_kwargs.update({'optimizer_reg': self.optimizer_reg})
                 self.optimizer = SGDr(optimizer_grouped_parameters, **optimizer_kwargs)
             elif self.custom_optimizer=='adamw':
-                self.optimizer = AdamWv(optimizer_grouped_parameters, **optimizer_kwargs)
+                self.optimizer = AdamW(optimizer_grouped_parameters, **optimizer_kwargs)
             elif self.custom_optimizer=='scaled_adamw':
+                optimizer_kwargs.update({'optimizer_reg': self.optimizer_reg})
                 self.optimizer = AdamWr(optimizer_grouped_parameters, **optimizer_kwargs)
             else:
                 raise Exception('custom optimizer not specified')
