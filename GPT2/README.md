@@ -58,10 +58,9 @@ python -m torch.distributed.launch --nproc_per_node=1 src/gpt2_ft.py \
     --init_checkpoint ./pretrained_checkpoints/gpt2-medium-pytorch_model.bin \
     --platform local \
     --clip 0.0 \
-    --lr 2e-4 \
+    --lr 0.0002 \
     --weight_decay 0.01 \
     --correct_bias \
-    --adam_beta1 0.9 \
     --adam_beta2 0.999 \
     --scheduler linear \
     --warmup_step 500 \
