@@ -32,6 +32,7 @@ def add_optimizer_params(parser: argparse.ArgumentParser):
 
     parser.add_argument('--i_steps', type=str, default='0', help='interval_steps')
     parser.add_argument('--i_lrs', type=str, default='0.00025', help='interval_lrs')
+    parser.add_argument('--optimizer_reg', type=float, default=1e-6, help='riemannian_reg')
 
 class CosineAnnealingWarmupRestarts(_LRScheduler):
     """
@@ -194,7 +195,19 @@ def create_optimizer_from_args(model, args, grouped_parameters=None):
         grouped_parameters = create_grouped_parameters(model, args.no_decay_bias)
 
     if args.opt=="scaled_adamw":
-        print('USING OPTIMIZER SCALED AdamW')
+        print('Using Scaled AdamW')
+        optimizer = AdamWr( 
+            grouped_parameters, 
+            lr=args.lr, 
+            betas=(args.adam_beta1, args.adam_beta2), 
+            eps=args.adam_epislon, 
+            weight_decay=args.weight_decay, 
+            correct_bias=args.correct_bias,
+            rank=args.lora_dim,
+            reg=args.optimizer_reg
+        )
+    if args.opt=="adamw":
+        print('Using Plain AdamW')
         optimizer = AdamW( 
             grouped_parameters, 
             lr=args.lr, 
@@ -203,27 +216,17 @@ def create_optimizer_from_args(model, args, grouped_parameters=None):
             weight_decay=args.weight_decay, 
             correct_bias=args.correct_bias
         )
-    if args.opt=="adamw":
-        print('USING OPTIMIZER SCALED AdamW')
-        optimizer = AdamWr( 
-            grouped_parameters, 
-            lr=args.lr, 
-            betas=(args.adam_beta1, args.adam_beta2), 
-            eps=args.adam_epislon, 
-            weight_decay=args.weight_decay, 
-            correct_bias=args.correct_bias,
-            rank=args.lora_dim
-        )
     if args.opt=="scaled_gd":
-        print('USING OPTIMIZER SCALED GD')
+        print('Using Scaled GD')
         optimizer = SGDr(
             grouped_parameters,
             lr=args.lr,
             weight_decay=args.weight_decay,
-            rank = args.lora_dim
+            rank = args.lora_dim,
+            reg=args.optimizer_reg
         )
     if args.opt=="sgd":
-        print('USING OPTIMIZER SGD')
+        print('Using Plain SGD')
         optimizer = torch.optim.SGD(
             grouped_parameters,
             lr=args.lr,

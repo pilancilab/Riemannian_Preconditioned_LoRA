@@ -30,15 +30,15 @@ python src/gpt2_encode.py --vocab vocab --input $path/valid_formatted.jsonl --ou
 echo "creating dart datasets..."
 path=data/dart
 echo "train..."
-python src/format_converting_dart.py /hdd/data/dart/dart-v1.1.1-full-train.json /hdd/data/dart/train_formatted.jsonl
+python src/format_converting_dart.py data/dart/dart-v1.1.1-full-train.json data/dart/train_formatted.jsonl
 python src/gpt2_encode.py --vocab vocab --input $path/train_formatted.jsonl --output $path/train.jsonl --add_bos --add_eos
 
 echo "test..."
-python src/format_converting_dart.py /hdd/data/dart/dart-v1.1.1-full-test.json /hdd/data/dart/test_formatted.jsonl
+python src/format_converting_dart.py data/dart/dart-v1.1.1-full-test.json data/dart/test_formatted.jsonl
 python src/gpt2_encode.py --vocab vocab --input $path/test_formatted.jsonl --output $path/test.jsonl --add_bos --add_eos
 
 echo "valid..."
-python src/format_converting_dart.py /hdd/data/dart/dart-v1.1.1-full-dev.json /hdd/data/dart/valid_formatted.jsonl
+python src/format_converting_dart.py data/dart/dart-v1.1.1-full-dev.json data/dart/valid_formatted.jsonl
 python src/gpt2_encode.py --vocab vocab --input $path/valid_formatted.jsonl --output $path/valid.jsonl --add_bos --add_eos
 
 echo "script complete!"

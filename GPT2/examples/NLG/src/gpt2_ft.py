@@ -373,8 +373,6 @@ if __name__ == '__main__':
                     print('-' * 100)
                     print('End of training')
                 break
-        with open(f'%s_trainloss.pickle'%args.trial_name, 'wb') as handle:
-            pickle.dump(train_loss, handle, protocol=pickle.HIGHEST_PROTOCOL)
     except KeyboardInterrupt:
         if args.rank == 0:
             print('-' * 100)

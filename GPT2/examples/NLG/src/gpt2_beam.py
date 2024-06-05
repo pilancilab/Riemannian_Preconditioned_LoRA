@@ -132,8 +132,6 @@ def _enforce_repetition_penalty_(
     """repetition penalty (from CTRL paper https://arxiv.org/abs/1909.05858). """
 
     for i in range(batch_size * num_beams):
-        print('prev_output_tokens.shape', prev_output_tokens.shape)
-        print('prev_output_tokens[i].shape', prev_output_tokens[i].shape)
 
         for previous_token in set(prev_output_tokens[i].tolist()):
             # if score < 0 then repetition penalty has to multiplied to reduce the previous token probability
@@ -216,8 +214,6 @@ def beam(model, data_iter, args):
             _id = data['id'].to(args.device)
             _query = data['query'].to(args.device)
             _query_len = data['query_len'].to(args.device)
-            print('_id: ', _id)
-            print('_query ', _query, _query.shape)
 
 
             ## local adaptation start.
@@ -322,7 +318,6 @@ def beam(model, data_iter, args):
             if args.rank == 0:
                 _id = _id.view(-1).cpu()
                 output = output.view(-1, output.shape[-1]).cpu()
-                print('output_ ', output, output.shape)
 
                 for _b in range(0, _id.shape[-1]):
                     _i = int(_id[_b].item())
@@ -390,7 +385,6 @@ if __name__ == '__main__':
 
 
     print('model sampling ...')
-    print('webnlgggg ', len(valid_loader))
     beam(lm_net, valid_loader, args)
     distributed_sync(args)
     print('cleanup dist ...')

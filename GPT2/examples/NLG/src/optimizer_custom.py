@@ -96,10 +96,12 @@ class AdamW(Optimizer):
         return loss
 
 class SGDr(Optimizer):
-    def __init__(self, params, lr, weight_decay, rank=4):
+    def __init__(self, params, lr, weight_decay, rank=4, reg=1e-6):
         defaults = dict(lr=lr, weight_decay=weight_decay)
         super().__init__(params, defaults)
         self.rank = rank
+        self.reg = reg
+        print(f'{self.reg=}')
     def step(self):
         for group in self.param_groups:
             for p1, p2 in list(zip(group["params"],group["params"][1:]))[::2]:
@@ -109,11 +111,11 @@ class SGDr(Optimizer):
                 scale1_0 = p2.data[0:dim_1,:]
                 scale1_1 = p2.data[dim_1:,:]
                 try:
-                    grad1_0_scaled = torch.inverse(scale1_0.T@scale1_0)@grad1_0
+                    grad1_0_scaled = torch.inverse(scale1_0.T@scale1_0+self.reg*torch.eye(self.rank).to(scale1_0.device))@grad1_0
                 except:
                     grad1_0_scaled = grad1_0
                 try:
-                    grad1_1_scaled = torch.inverse(scale1_1.T@scale1_1)@grad1_1
+                    grad1_1_scaled = torch.inverse(scale1_1.T@scale1_1+self.reg*torch.eye(self.rank).to(scale1_1.device))@grad1_1
                 except:
                     grad1_1_scaled = grad1_1
                 grad1_scaled = torch.cat([grad1_0_scaled, grad1_1_scaled])
@@ -123,25 +125,26 @@ class SGDr(Optimizer):
                 scale2_0 = p1.data[0:self.rank,:]
                 scale2_1 = p1.data[self.rank:,:]
                 try:
-                    grad2_0_scaled = grad2_0@torch.inverse(scale2_0@scale2_0.T)
+                    grad2_0_scaled = grad2_0@torch.inverse(scale2_0@scale2_0.T+self.reg*torch.eye(self.rank).to(scale2_0.device))
                 except:
                     grad2_0_scaled = grad2_0
                 try:
-                    grad2_1_scaled = grad2_1@torch.inverse(scale2_1@scale2_1.T)
+                    grad2_1_scaled = grad2_1@torch.inverse(scale2_1@scale2_1.T+self.reg*torch.eye(self.rank).to(scale2_1.device))
                 except:
                     grad2_1_scaled = grad2_1
                 grad2_scaled = torch.cat([grad2_0_scaled, grad2_1_scaled])
+
+                p1.data.add_(grad1_scaled, alpha=-group['lr'])
+                p2.data.add_(grad2_scaled, alpha=-group['lr'])
 
                 if group["weight_decay"] > 0.0:
                     p1.data.add_(p1.data, alpha=-group["lr"] * group["weight_decay"])
                     p2.data.add_(p2.data, alpha=-group["lr"] * group["weight_decay"])
 
-                p1.data.add_(grad1_scaled, alpha=-group['lr'])
-                p2.data.add_(grad2_scaled, alpha=-group['lr'])
 
 
 class AdamWr(Optimizer):
-    def __init__(self, params, lr=1e-3, betas=(0.9, 0.98), eps=1e-6, weight_decay=0.0, correct_bias=True, rank=2):
+    def __init__(self, params, lr=1e-3, betas=(0.9, 0.98), eps=1e-6, weight_decay=0.0, correct_bias=True, rank=2, reg=1e-6):
         if lr < 0.0:
             raise ValueError("Invalid learning rate: {} - should be >= 0.0".format(lr))
         if not 0.0 <= betas[0] < 1.0:
@@ -153,6 +156,8 @@ class AdamWr(Optimizer):
         defaults = dict(lr=lr, betas=betas, eps=eps, weight_decay=weight_decay, correct_bias=correct_bias)
         super().__init__(params, defaults)
         self.rank = rank
+        self.reg = reg
+        print(f'{self.reg=}')
     def reset_state(self):
         for group in self.param_groups:
             for p in group['params']:
@@ -178,13 +183,13 @@ class AdamWr(Optimizer):
                 grad1_scaled0 = p1.grad.data[0:self.rank,:]
                 c0 = p2.data[0:dim_1,:]
                 try:
-                    c0_ = torch.inverse(c0.T@c0)
+                    c0_ = torch.inverse(c0.T@c0+self.reg*torch.eye(self.rank).to(c0.device))
                 except:
                     c0_ = torch.eye((c0.T@c0).shape[0]).to(c0.device)
                 grad1_scaled1 = p1.grad.data[self.rank:,:]
                 c1 = p2.data[dim_1:,:]
                 try:
-                    c1_ = torch.inverse(c1.T@c1)
+                    c1_ = torch.inverse(c1.T@c1+self.reg*torch.eye(self.rank).to(c1.device))
                 except:
                     c1_ = torch.eye((c1.T@c1).shape[0]).to(c1.device)
                 grad1_scaled0 = c0_@grad1_scaled0
@@ -205,11 +210,9 @@ class AdamWr(Optimizer):
 
                 c0 = p1.data[0:self.rank,:]
                 c1 = p1.data[self.rank:,:]
+                p1.data.addcdiv_(-step_size, exp_avg, denom)
                 if group["weight_decay"] > 0.0:
                     p1.data.add_(p1.data, alpha=-group["lr"] * group["weight_decay"])
-                p1.data.addcdiv_(-step_size, exp_avg, denom)
-                # if group["weight_decay"] > 0.0:
-                #     p1.data.add_(p1.data, alpha=-group["lr"] * group["weight_decay"])
 
                 
                 state = self.state[p2]
@@ -225,12 +228,12 @@ class AdamWr(Optimizer):
 
                 grad2_scaled0 = p2.grad.data[0:dim_1,:]
                 try:
-                    c0_ = torch.inverse(c0@c0.T)
+                    c0_ = torch.inverse(c0@c0.T+self.reg*torch.eye(self.rank).to(c0_.device))
                 except:
                     c0_ = torch.eye((c0@c0.T).shape[0]).to(c0.device)
                 grad2_scaled1 = p2.grad.data[dim_1:,:]
                 try:
-                    c1_ = torch.inverse(c1@c1.T)
+                    c1_ = torch.inverse(c1@c1.T+self.reg*torch.eye(self.rank).to(c1_.device))
                 except:
                     c1_ = torch.eye((c1@c1.T).shape[0]).to(c1.device)
                 grad2_scaled0 = grad2_scaled0@c0_
@@ -248,8 +251,8 @@ class AdamWr(Optimizer):
                     bias_correction2 = 1.0 - beta2 ** state["step"]
                     step_size = step_size * math.sqrt(bias_correction2) / bias_correction1
 
+                p2.data.addcdiv_(-step_size, exp_avg, denom)
                 if group["weight_decay"] > 0.0:
                     p2.data.add_(p2.data, alpha=-group["lr"] * group["weight_decay"])
-                p2.data.addcdiv_(-step_size, exp_avg, denom)
 
         return loss
