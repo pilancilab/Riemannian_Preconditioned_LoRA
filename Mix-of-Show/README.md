@@ -22,8 +22,10 @@ We also test with Hermoine character and with SGD, scaled GD optimizers.
 * [options/](options) contains training and testing hyperparameters.
 
 ## Requirements
-
-See the [Mix-of-Show](https://github.com/TencentARC/Mix-of-Show/tree/main) repository for requirements.
+```bash
+pip install -r requirements.txt
+ ```
+See the [Mix-of-Show](https://github.com/TencentARC/Mix-of-Show/tree/main) repository for requirement details.
 
 ## Quickstart
 1. Download pretrained model
@@ -36,10 +38,11 @@ git-lfs clone https://huggingface.co/windwhinny/chilloutmix.git
  ```
 2. Create model directory
 ```bash
+cd ../..    
 mkdir experiments/8101_EDLoRA_potter_Cmix_B4_Repeat500
 mkdir experiments/8101_EDLoRA_potter_Cmix_B4_Repeat500/models
  ```
-3. Train
+3. Train (specify learning rates in <code>-opt</code> files)
 ```bash
 accelerate launch train_edlora.py -opt options/train/EDLoRA/real/8101_EDLoRA_potter_Cmix_B4_Repeat500.yml --optimizer scaled_adamw
 ```
