@@ -8,8 +8,8 @@ Paper: [https://arxiv.org/abs/2402.02347](https://arxiv.org/abs/2402.02347) <br>
 
 This repository builds on original Mix-of-Show project [Mix-of-Show (Gu et al., 2023)](https://arxiv.org/abs/2305.18292).
 
-<p>
-<img src="figures/harry.png" width="800" >
+<p align="center">
+<img src="figures/result.png" width="800" >
 </p>
 
 
