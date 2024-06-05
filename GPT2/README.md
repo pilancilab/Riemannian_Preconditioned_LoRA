@@ -26,7 +26,7 @@ See the [LoRA](https://github.com/microsoft/LoRA/tree/main) repository for requi
 
 ## Quickstart
 
-1. Clone the repo and run the following command
+Clone the repo and run the following command
  ```
 cd examples/NLG
  pip install -r requirement.txt
