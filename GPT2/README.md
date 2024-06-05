@@ -8,7 +8,7 @@ Paper: [https://arxiv.org/abs/2402.02347](https://arxiv.org/abs/2402.02347) <br>
 
 This repository builds on original LoRA project [LoRA (Hu et al., 2021)](https://arxiv.org/abs/2106.09685). 
 <p>
-<img src="figures/score_gpt.png" width="800" >
+<img src="figures/score.png" width="800" >
 </p>
 
 We also evaluate for varying LoRA ranks, different model sizes, and different datasets include DART and WebNLG. Here we demonstrate our experiment for E2E dataset (Table 1 result). Follow [LoRA](https://github.com/microsoft/LoRA/tree/main) repository for expeirments for other datasets.
