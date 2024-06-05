@@ -43,10 +43,10 @@ mkdir experiments/8101_EDLoRA_potter_Cmix_B4_Repeat500/models
  ```
 3. Train (specify learning rates in <code>-opt</code> files)
 ```bash
-accelerate launch train_edlora.py -opt options/train/EDLoRA/real/8101_EDLoRA_potter_Cmix_B4_Repeat500.yml --optimizer scaled_adamw
+accelerate launch train_edlora.py -opt options/train/EDLoRA/real/8101_EDLoRA_potter_Cmix_B4_Repeat500.yml --optimizer scaled_adamw --optimizer_reg 0
 ```
 
-Here <code>sgd, scaled_gd, adamw, scaled_adamw</code> are all valid choices for <code>--optimizer</code>. Scaled AdamW is set as dafualt. Trained models will be saved to : <code>experiments/8101_EDLoRA_potter_Cmix_B4_Repeat500/models</code>.
+Here <code>sgd, scaled_gd, adamw, scaled_adamw</code> are all valid choices for <code>--optimizer</code>. Scaled AdamW is set as dafualt. Trained models will be saved to <code>experiments/8101_EDLoRA_potter_Cmix_B4_Repeat500/models</code>.
 
 4. Create image directory
 ```bash
@@ -58,7 +58,15 @@ mkdir results/8101_EDLoRA_potter_Cmix_B4_Repeat500
 ```bash
 python test_edlora.py -opt options/test/EDLoRA/human/8101_EDLoRA_potter_Cmix_B4_Repeat500.yml
 ```
-Figures will be saved to: <code>results/8101_EDLoRA_potter_Cmix_B4_Repeat500/visualization</code>.
+Figures will be saved to <code>results/8101_EDLoRA_potter_Cmix_B4_Repeat500/visualization</code>.
 
+
+## Parameter Reference
+
+| Learning Rate | scaled_adamw reg | LoRA fusion parameter
+| ------------- | ------------- | ------------- |
+| 5e-4 & 5e-4 | 10 | 0.7 |
+| 1e-5 & 1e-4 | 0 | 1 |
+| 5e-6 & 5e-5 | 0 | 1 |
 
 
