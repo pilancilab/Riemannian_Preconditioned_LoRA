@@ -58,11 +58,11 @@ python -m torch.distributed.launch --nproc_per_node=1 src/gpt2_ft.py \
     --init_checkpoint ./pretrained_checkpoints/gpt2-medium-pytorch_model.bin \
     --platform local \
     --clip 0.0 \
-    --lr 0.0008 \
+    --lr 2e-4 \
     --weight_decay 0.01 \
     --correct_bias \
-    --adam_beta1 0.7 \
-    --adam_beta2 0.8 \
+    --adam_beta1 0.9 \
+    --adam_beta2 0.999 \
     --scheduler linear \
     --warmup_step 500 \
     --max_epoch 5 \
@@ -74,7 +74,7 @@ python -m torch.distributed.launch --nproc_per_node=1 src/gpt2_ft.py \
     --work_dir ./trained_models/GPT2_M/e2e \
     --random_seed 110 \
     --trial_name E2E_experiment\
-    --opt scaled_adamw
+    --opt adamw
 ```
 Here <code>sgd, scaled_gd, adamw, scaled_adamw</code> are all valid choices for <code>--opt</code>.
 
