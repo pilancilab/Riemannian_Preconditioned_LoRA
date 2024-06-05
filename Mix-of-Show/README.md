@@ -33,7 +33,6 @@ See the [Mix-of-Show](https://github.com/TencentARC/Mix-of-Show/tree/main) repos
 mkdir experiments
 mkdir experiments/pretrained_models
 cd experiments/pretrained_models
-# Diffusers-version ChilloutMix
 git-lfs clone https://huggingface.co/windwhinny/chilloutmix.git
  ```
 2. Create model directory
