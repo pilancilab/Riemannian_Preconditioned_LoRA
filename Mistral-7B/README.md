@@ -7,7 +7,7 @@
 Paper: [https://arxiv.org/abs/2402.02347](https://arxiv.org/abs/2402.02347) <br>
 
 <p>
-<img src="figures/score_mistral.png" width="800" >
+<img src="figures/score_mistral2.png" width="800" >
 </p>
 
 ## Repository Overview
