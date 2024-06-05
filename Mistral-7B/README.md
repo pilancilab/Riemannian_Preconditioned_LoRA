@@ -27,7 +27,7 @@ python mistral_glue.py --optimizer scaled_adamw --optimizer_reg 4.5  --lr 5e-5  
  ```
 Here <code>sgd, scaled_gd, adamw, scaled_adamw</code> are all valid choices for <code>--optimizer</code>. <code>--optimizer_reg</code> sets regularization parameter in Riemannian preconditioner.
 
-## Parameter Reference for Reproducibility
+## Parameter Reference
 | Task  | adamw lr  | scaled_adamw lr  | sgd lr  | scaled_gd lr  | scaled_adamw reg | scaled_gd reg |
 | ------------- | ------------- | ------------- |  ------------- | ------------- | ------------- | ------------- |
 | rte  | 5e-5 | 5e-5 |  5e-3 | 5e-3 | 4.5 | 0.5 |
