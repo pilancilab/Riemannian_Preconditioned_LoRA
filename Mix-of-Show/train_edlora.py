@@ -20,7 +20,7 @@ from mixofshow.pipelines.trainer_edlora import EDLoRATrainer
 from mixofshow.utils.convert_edlora_to_diffusers import convert_edlora
 from mixofshow.utils.util import MessageLogger, dict2str, reduce_loss_dict, set_path_logger
 from test_edlora import visual_validation
-from custom_optimizers import AdamWv, AdamWr, SGDv, SGDr
+from custom_optimizers import AdamW, AdamWr, SGD, SGDr
 
 # Will error if the minimal version of diffusers is not installed. Remove at your own risks.
 check_min_version('0.18.2')
@@ -56,16 +56,16 @@ def train(root_path, args):
 
     if args.optimizer=='adamw':
         print('Using Optimizer AdamW')
-        optimizer = AdamWv(EDLoRA_trainer.get_params_to_optimize(), **train_opt['optim_g'])
+        optimizer = AdamW(EDLoRA_trainer.get_params_to_optimize(), **train_opt['optim_g'])
     elif args.optimizer=='scaled_adamw':
         print('Using Optimizer Scaled AdamW')
-        optimizer = AdamWr(EDLoRA_trainer.get_params_to_optimize(), **train_opt['optim_g'])
+        optimizer = AdamWr(EDLoRA_trainer.get_params_to_optimize(), **train_opt['optim_g'], reg=args.optimizer_reg)
     elif args.optimizer=='sgd':
         print('Using Optimizer SGD')
-        optimizer = SGDv(EDLoRA_trainer.get_params_to_optimize(), **train_opt['optim_g'])
+        optimizer = SGD(EDLoRA_trainer.get_params_to_optimize(), **train_opt['optim_g'])
     elif args.optimizer=='scaled_gd':
         print('Using Optimizer Scaled GD')
-        optimizer = SGDr(EDLoRA_trainer.get_params_to_optimize(), **train_opt['optim_g'])
+        optimizer = SGDr(EDLoRA_trainer.get_params_to_optimize(), **train_opt['optim_g'], reg=args.optimizer_reg)
     
 
     # Get the training dataset
@@ -115,7 +115,7 @@ def train(root_path, args):
 
     original_embedding = copy.deepcopy(accelerator.unwrap_model(EDLoRA_trainer).text_encoder.get_input_embeddings().weight)
 
-    while global_step < opt['train']['total_iter'] and global_step<50:
+    while global_step < opt['train']['total_iter']:
         with accelerator.accumulate(EDLoRA_trainer):
 
             accelerator.unwrap_model(EDLoRA_trainer).unet.train()
@@ -192,6 +192,7 @@ if __name__ == '__main__':
     parser.add_argument('-opt', type=str, default='options/train/EDLoRA/EDLoRA_hina_Anyv4_B4_Iter1K.yml')
     parser.add_argument('--optimizer', default='scaled_adamw', type=str,
                         choices=['adamw', 'scaled_adamw', 'sgd', 'scaled_gd'])
+    parser.add_argument('--optimizer_reg', default=0.0, type=float)
     parser.add_argument('--local-rank', type=int, default=0)
     args = parser.parse_args()
 

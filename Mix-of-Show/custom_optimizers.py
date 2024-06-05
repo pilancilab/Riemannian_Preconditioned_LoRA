@@ -4,7 +4,7 @@ import math
 import copy
 import time
 
-class AdamWv(Optimizer):
+class AdamW(Optimizer):
     def __init__(self, params, lr=1e-3, betas=(0.9, 0.98), eps=1e-6, weight_decay=0.0, correct_bias=False):
         if lr < 0.0:
             raise ValueError("Invalid learning rate: {} - should be >= 0.0".format(lr))
@@ -58,30 +58,32 @@ class AdamWv(Optimizer):
                     bias_correction2 = 1.0 - beta2 ** state["step"]
                     step_size = step_size * math.sqrt(bias_correction2) / bias_correction1
 
+                p.data.addcdiv_(-step_size, exp_avg, denom)
                 if group["weight_decay"] > 0.0:
                     p.data.add_(p.data, alpha=-group["lr"] * group["weight_decay"])
-                p.data.addcdiv_(-step_size, exp_avg, denom)
 
         return loss
 
 class SGDr(Optimizer):
-    def __init__(self, params, lr, weight_decay, betas=(0.9, 0.98), eps=1e-6, correct_bias=True):
+    def __init__(self, params, lr, weight_decay, betas=(0.9, 0.98), eps=1e-6, correct_bias=True, reg=0):
         defaults = dict(lr=lr, weight_decay=weight_decay)
         super().__init__(params, defaults)
+        self.reg = reg 
+        print(f'{self.reg=}')
     def step(self, closure=None):
         for group in self.param_groups:
             for p1, p2 in list(zip(group["params"],group["params"][1:]))[::2]:
                 grad1 = p1.grad.data
                 scale1 = p2.data
                 try:
-                    grad1_scaled = torch.inverse(scale1.T@scale1)@grad1
+                    grad1_scaled = torch.inverse(scale1.T@scale1+self.reg*torch.eye(scale1.shape[1]).to(scale1.device))@grad1
                 except:
                     grad1_scaled = grad1
                 
                 grad2 = p2.grad.data
                 scale2 = p1.data
                 try:
-                    grad2_scaled = grad2@torch.inverse(scale2@scale2.T)
+                    grad2_scaled = grad2@torch.inverse(scale2@scale2.T+self.reg*torch.eye(scale2.shape[0]).to(scale2.device))
                 except:
                     grad2_scaled = grad2
                 
@@ -92,7 +94,7 @@ class SGDr(Optimizer):
                 p1.data.add_(grad1_scaled, alpha=-group['lr'])
                 p2.data.add_(grad2_scaled, alpha=-group['lr'])
 
-class SGDv(Optimizer):
+class SGD(Optimizer):
     def __init__(self, params, lr, weight_decay, betas=(0.9, 0.98), eps=1e-6, correct_bias=True):
         defaults = dict(lr=lr, weight_decay=weight_decay)
         super().__init__(params, defaults)
@@ -105,7 +107,7 @@ class SGDv(Optimizer):
             
 
 class AdamWr(Optimizer):
-    def __init__(self, params, lr=1e-3, betas=(0.9, 0.98), eps=1e-6, weight_decay=0.0, correct_bias=False):
+    def __init__(self, params, lr=1e-3, betas=(0.9, 0.98), eps=1e-6, weight_decay=0.0, correct_bias=False, reg=0):
         if lr < 0.0:
             raise ValueError("Invalid learning rate: {} - should be >= 0.0".format(lr))
         if not 0.0 <= betas[0] < 1.0:
@@ -116,7 +118,8 @@ class AdamWr(Optimizer):
             raise ValueError("Invalid epsilon value: {} - should be >= 0.0".format(eps))
         defaults = dict(lr=lr, betas=betas, eps=eps, weight_decay=weight_decay, correct_bias=correct_bias)
         super().__init__(params, defaults)
-        # self.rank = rank
+        self.reg = reg
+        print(f'{self.reg=}')
     def reset_state(self):
         for group in self.param_groups:
             for p in group['params']:
@@ -141,7 +144,7 @@ class AdamWr(Optimizer):
                 grad1 = p1.grad.data
                 c = p2.data
                 try:
-                    c_ = torch.inverse(c.T@c)
+                    c_ = torch.inverse(c.T@c+self.reg*torch.eye(c.shape[1]).to(c.device))
                 except:
                     c_ = torch.eye((c.T@c).shape[0]).to(c.device)
                 grad1_scaled = c_@grad1
@@ -158,9 +161,10 @@ class AdamWr(Optimizer):
                     step_size = step_size * math.sqrt(bias_correction2) / bias_correction1
 
                 c1 = p1.data
+
+                p1.data.addcdiv_(-step_size, exp_avg, denom)
                 if group["weight_decay"] > 0.0:
                     p1.data.add_(p1.data, alpha=-group["lr"] * group["weight_decay"])
-                p1.data.addcdiv_(-step_size, exp_avg, denom)
 
                 
                 state = self.state[p2]
@@ -176,7 +180,7 @@ class AdamWr(Optimizer):
 
                 grad2 = p2.grad.data
                 try:
-                    c1_ = torch.inverse(c1@c1.T)
+                    c1_ = torch.inverse(c1@c1.T+self.reg*torch.eye(c1.shape[0]).to(c1.device))
                 except:
                     c1_ = torch.eye((c1@c1.T).shape[0]).to(c1.device)
                 
@@ -193,7 +197,9 @@ class AdamWr(Optimizer):
                     bias_correction2 = 1.0 - beta2 ** state["step"]
                     step_size = step_size * math.sqrt(bias_correction2) / bias_correction1
 
+
+                p2.data.addcdiv_(-step_size, exp_avg, denom)
                 if group["weight_decay"] > 0.0:
                     p2.data.add_(p2.data, alpha=-group["lr"] * group["weight_decay"])
-                p2.data.addcdiv_(-step_size, exp_avg, denom)
+                
         return loss
