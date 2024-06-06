@@ -25,6 +25,7 @@ pip install -r requirements.txt
 
 ## Training
 ```bash
+cd training_scripts
 sh run_lora_db_w_text.sh scaled_adamw
  ```
 Here <code>sgd, scaled_gd, adamw, scaled_adamw</code> are all valid choices for command line arguments, which specify the optimizer to be used. Learning rates and training objects can also be modified in <code>run_lora_db_w_text.sh</code> file. The tuned model path is stored in <code>OUTPUT_DIR</code> in <code>run_lora_db_w_text.sh</code> file.
