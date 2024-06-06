@@ -21,6 +21,7 @@ We also generate figures with target objects chair and dog, with training images
 See the [custom diffsuon](https://github.com/cloneofsimo/lora) repository for requirements.
 ```
 pip install -r requirements.txt
+python setup.py develop
  ```
 
 ## Training
