@@ -4,13 +4,12 @@
 *Fangzhao Zhang, Mert Pilanci* <br>
 Paper: [https://arxiv.org/abs/2402.02347](https://arxiv.org/abs/2402.02347) <br>
 
-This repository builds on the [custom diffsuon](https://github.com/cloneofsimo/lora)  project. 
 
 <p>
 <img src="figures/vase.png" width="800" >
 </p>
 
-We also generate figures with target objects chair and dog, with training images stored in [contents/](contents).
+This repository builds on the [custom diffsuon](https://github.com/cloneofsimo/lora)  project. We also generate figures with target objects chair and dog, with training images stored in [contents/](contents).
 
 ## Repository Overview
 * [contents/](contents) contains the training images of different objects.
