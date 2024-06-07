@@ -8,3 +8,4 @@ safetensors
 opencv-python
 torchvision
 mediapipe
+accelerate

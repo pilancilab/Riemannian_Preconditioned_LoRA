@@ -447,7 +447,10 @@ def parse_args(input_args=None):
         "--use_xformers", action="store_true", help="Whether or not to use xformers"
     )
     parser.add_argument(
-        "--optimizer", type=str, default="scaeld_adamw"
+        "--optimizer", type=str, default="adamw"
+    )
+    parser.add_argument(
+        "--optimizer_reg", type=float, default=0, required=False,
     )
 
     if input_args is not None:
@@ -602,11 +605,6 @@ def main(args):
         unet, r=args.lora_rank, loras=args.resume_unet
     )
 
-    for _up, _down in extract_lora_ups_down(unet):
-        print("Before training: Unet First Layer lora up", _up.weight.data)
-        print("Before training: Unet First Layer lora down", _down.weight.data)
-        break
-
     vae.requires_grad_(False)
     text_encoder.requires_grad_(False)
 
@@ -616,14 +614,6 @@ def main(args):
             target_replace_module=["CLIPAttention"],
             r=args.lora_rank,
         )
-        for _up, _down in extract_lora_ups_down(
-            text_encoder, target_replace_module=["CLIPAttention"]
-        ):
-            print("Before training: text encoder First Layer lora up", _up.weight.data)
-            print(
-                "Before training: text encoder First Layer lora down", _down.weight.data
-            )
-            break
 
     if args.use_xformers:
         set_use_memory_efficient_attention_xformers(unet, True)
@@ -641,20 +631,6 @@ def main(args):
             * args.train_batch_size
             * accelerator.num_processes
         )
-
-    # Use 8-bit Adam for lower memory usage or to fine-tune the model in 16GB GPUs
-    if args.use_8bit_adam:
-        try:
-            import bitsandbytes as bnb
-        except ImportError:
-            raise ImportError(
-                "To use 8-bit Adam, please install the bitsandbytes library: `pip install bitsandbytes`."
-            )
-
-        optimizer_class = bnb.optim.AdamW8bit
-    else:
-        optimizer_class = torch.optim.AdamW
-
 
     text_lr = (
         args.learning_rate
@@ -674,16 +650,24 @@ def main(args):
         else itertools.chain(*unet_lora_params)
     )
 
+
+    grouped_params = []
     params = []
     for param in unet.parameters():
         if param.requires_grad:
             params.append(param)
-    grouped_params = [{'params': [e1, e2]} for e1, e2 in list(zip(params,params[1:]))[::2]]
+    grouped_params += [{'params': [e1, e2], 'reg': 0} for e1, e2 in list(zip(params,params[1:]))[::2]]
+
+    params = []
+    for param in text_encoder.parameters():
+        if param.requires_grad:
+            params.append(param)
+    grouped_params += [{'params': [e1, e2], 'reg': args.optimizer_reg} for e1, e2 in list(zip(params,params[1:]))[::2]]
 
 
     if args.optimizer == 'adamw': 
         print('USING Optimizer AdamW')
-        optimizer = optimizer_class(
+        optimizer = torch.optim.AdamW(
             params_to_optimize,
             lr=args.learning_rate,
             betas=(args.adam_beta1, args.adam_beta2),
@@ -692,7 +676,7 @@ def main(args):
         )
     elif args.optimizer == 'scaled_adamw':
         print('USING Optimizer Scaled AdamW')
-        optimizer = reAdamW(
+        optimizer = AdamWr(
             grouped_params,
             lr=args.learning_rate,
             betas=(args.adam_beta1, args.adam_beta2),
@@ -707,8 +691,8 @@ def main(args):
             weight_decay=args.adam_weight_decay
         )
     elif args.optimizer == 'scaled_gd':
-        print('USING OPtimizer Scaled GD')
-        optimizer = reSGD(
+        print('USING Optimizer Scaled GD')
+        optimizer = SGDr(
             params_to_optimize,
             lr=args.learning_rate,
             weight_decay=args.adam_weight_decay
@@ -972,31 +956,6 @@ def main(args):
                                 filename_text_encoder,
                                 target_replace_module=["CLIPAttention"],
                             )
-
-                        for _up, _down in extract_lora_ups_down(pipeline.unet):
-                            print(
-                                "First Unet Layer's Up Weight is now : ",
-                                _up.weight.data,
-                            )
-                            print(
-                                "First Unet Layer's Down Weight is now : ",
-                                _down.weight.data,
-                            )
-                            break
-                        if args.train_text_encoder:
-                            for _up, _down in extract_lora_ups_down(
-                                pipeline.text_encoder,
-                                target_replace_module=["CLIPAttention"],
-                            ):
-                                print(
-                                    "First Text Encoder Layer's Up Weight is now : ",
-                                    _up.weight.data,
-                                )
-                                print(
-                                    "First Text Encoder Layer's Down Weight is now : ",
-                                    _down.weight.data,
-                                )
-                                break
 
                         last_save = global_step
 
