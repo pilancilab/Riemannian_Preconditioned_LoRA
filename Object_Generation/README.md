@@ -38,11 +38,11 @@ Generated images are saved at <code>exps/examples/vase</code> in default code.
 
 ## Parameter Reference
 Unet training is fixed to have learning rate <code>1e-4</code> and preconditioner regularization <code>0</code>. We only change text encoder training parameters. To reproduce Figure 1 result, we set
+| optimizer  |learning rate (preconditioner regularization) | LoRA fusion | 
+| ------------- | ------------- | ------------- |
+| (scaled) adamw  | 1e-2 (1e6)  | 0.7 |
+| (scaled) adamw  | 1e-3 (1e6)  | 0.67 |
+| (scaled) adamw  | 5e-5 (1e6)  | 0.7 |
+| (scaled) adamw  | 1e-6 (1e8)  | 0.67 |
 
-
-| optimizer  |learning rate (preconditioner regularization) | 
-| ------------- | ------------- |
-| (scaled) adamw  | 1e-2 (1e6)  |
-| (scaled) adamw  | 1e-3 (1e8)  |
-| (scaled) adamw  | 5e-5 (1e6)  |
-| (scaled) adamw  | 1e-6 (1e8)  |
+LoRA fusion number can be set in <code>test.py</code>.
