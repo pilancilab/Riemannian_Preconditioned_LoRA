@@ -35,4 +35,4 @@ Here <code>sgd, scaled_gd, adamw, scaled_adamw</code> are all valid choices for 
 ```bash
 python test.py
  ```
-where <code>OUTPUT_DIR</code> and image directories should be provided in <code>test.py</code> file.
+Generated images are saved at <code>exps/examples/vase</code>.
