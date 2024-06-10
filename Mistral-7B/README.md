@@ -37,6 +37,6 @@ Here <code>sgd, scaled_gd, adamw, scaled_adamw</code> are all valid choices for 
 | mrpc  | 5e-5  | 5e-5 |  5e-3 | 5e-3 | 100 | 1e-2 |
 | wnli  | 5e-5 | 5e-5 |  5e-3 | 5e-3| 10 | 1e-6 |
 | qnli  | 1e-5 | 1e-5 |  5e-3 | 9e-4 | 1e-6 | 1e-2 |
-| mnli  | 5e-6 | 3e-5 |  5e-3 | 1e-3 | 1e-6 | 1e-2 |
-| qqp  | 5e-6 | 3e-5 |  5e-3 | 4e-3 | 1e-6 | 1e-2|
+| mnli  | 5e-6 | 3e-5 |  5e-3 | 1e-3 | 1e-6 | 1e-7 |
+| qqp  | 5e-6 | 3e-5 |  5e-3 | 4e-3 | 1e-6 | 5e-7|
 
