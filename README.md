@@ -25,27 +25,30 @@ where $A^TA$ and $B^TB$ are of dimension $r$ by $r$. This preconditioner has ori
 In this project, we experiments with GPT-2 fine-tuning, Mistral 7B fine-tuning, Mix-of-Show fine-tuning, custom diffusion fine-tuning.
 1. GPT-2 Fine-Tuning (see [GPT-2/](GPT2) for experiment code.)
 <p align='center'>
-<img src="main_figures/score_gpt.png" width="800" >
+<img src="GPT2/figures/score.png" width="800" >
 </p>
 
 
 
 2. Mistral 7B Fine-Tuning (see [Mistral-7B/](Mistral-7B) for experiment code.)
 <p align='center'>
-<img src="main_figures/score_mistral.png" width="800" >
+<img src="Mistral-7B/figures/score_mistral.png" width="800" >
 </p>
 
 3. Mix-of-Show Fine-Tuning (see [Mix-of-Show/](Mix-of-Show) for experiment code.)
 <p align='center'>
-<img src="main_figures/harry.png" width="800" >
+<img src="Mix-of-Show/figures/result.png" width="800" >
 </p>
 
 
 4. Custom Diffusion Fine-tuning (see [Object_Generation/](Object_Generation) for experiment code.)
 <p align='center'>
-<img src="main_figures/vase.png" width="800" >
+<img src="Object_Generation/figures/vase.png" width="800" >
 </p>
 
+## Reproducibility
+
+See <code>Parameter Reference</code> in each section for parameter choices for each experiment. See  <code>Runtime Experiment</code> in [GPT-2/](GPT2) for runtime experiment details.
 
 ## Contact
 Please contact us or post an issue if you have any questions.
