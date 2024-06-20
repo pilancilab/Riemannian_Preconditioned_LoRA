@@ -161,7 +161,7 @@ python -m torch.distributed.launch --nproc_per_node=1  src/gpt2_ft.py  \
    --weight_decay 0.01 \
    --correct_bias   \
    --adam_beta1 0.7 \
-   --adam_beta1 0.8 \
+   --adam_beta2 0.8 \
    --scheduler linear  \
    --warmup_step 500 \
    --max_epoch 5   \
